@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>520linghua · 个人档案</title>
+<meta name="description" content="520linghua 的个人主页：机械设计制造及其自动化，爱好机械、电子、光学、计算机，一个慢热的 i 人。">
+<meta name="theme-color" content="#f3f0e7">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2316160f'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%23f3f0e7' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%23c0401c'/%3E%3C/svg%3E">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+  :root{
+    --paper:#f3f0e7;
+    --paper-2:#eae6da;
+    --ink:#16160f;
+    --ink-soft:#33322a;
+    --muted:#6f6c5e;
+    --line:rgba(22,22,15,.16);
+    --line-soft:rgba(22,22,15,.07);
+    --accent:#c0401c;
+    --blue:#143a86;
+    --sans:"PingFang SC","Microsoft YaHei","Hiragino Sans GB","Noto Sans SC",-apple-system,"Segoe UI",sans-serif;
+    --serif:"Songti SC","Source Han Serif SC","Noto Serif SC",STSong,SimSun,serif;
+    --mono:"JetBrains Mono","Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+    --maxw:1180px;
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.9;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* 图纸网格底纹 */
+  body::before{
+    content:"";
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(to right,var(--line-soft) 1px,transparent 1px),
+      linear-gradient(to bottom,var(--line-soft) 1px,transparent 1px),
+      radial-gradient(120% 90% at 50% 0%,rgba(255,255,255,.9),rgba(255,255,255,0) 60%);
+    background-size:26px 26px,26px 26px,100% 100%;
+    -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 55%,rgba(0,0,0,.35) 100%);
+    mask-image:linear-gradient(to bottom,#000 0%,#000 55%,rgba(0,0,0,.35) 100%);
+  }
+  /* 纸张颗粒 */
+  .grain{
+    position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.05;
+    mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,44px);position:relative;z-index:1}
+
+  /* 四角裁切标记 */
+  .crop{position:fixed;width:16px;height:16px;z-index:50;pointer-events:none;opacity:.45}
+  .crop.tl{top:14px;left:14px;border-top:1px solid var(--ink);border-left:1px solid var(--ink)}
+  .crop.tr{top:14px;right:14px;border-top:1px solid var(--ink);border-right:1px solid var(--ink)}
+  .crop.bl{bottom:14px;left:14px;border-bottom:1px solid var(--ink);border-left:1px solid var(--ink)}
+  .crop.br{bottom:14px;right:14px;border-bottom:1px solid var(--ink);border-right:1px solid var(--ink)}
+
+  /* ── 顶栏 ── */
+  header.bar{
+    position:sticky;top:0;z-index:40;
+    background:rgba(243,240,231,.86);
+    backdrop-filter:blur(8px) saturate(120%);
+    border-bottom:1px solid var(--line);
+  }
+  .bar-in{
+    display:flex;align-items:center;justify-content:space-between;gap:18px;
+    height:46px;font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);
+  }
+  .bar-in .mark{color:var(--ink);letter-spacing:.24em;font-weight:600}
+  .bar-in .mark i{font-style:normal;color:var(--accent)}
+  .bar-in .mid{display:none}
+  .bar-in .clock{font-variant-numeric:tabular-nums;color:var(--ink-soft)}
+  @media(min-width:720px){.bar-in .mid{display:block}}
+
+  /* ── HERO ── */
+  .hero{position:relative;overflow:hidden;padding:clamp(40px,7vh,84px) 0 clamp(34px,6vh,72px)}
+  .hero::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(460px circle at var(--mx,68%) var(--my,30%),rgba(192,64,28,.11),transparent 68%);
+    opacity:0;transition:opacity .5s ease;
+  }
+  .hero:hover::after{opacity:1}
+  .gears{
+    position:absolute;top:-14%;right:-12%;width:min(820px,74vw);height:auto;
+    color:var(--ink);opacity:.13;pointer-events:none;z-index:0;
+  }
+  .spin-a,.spin-b{transform-box:fill-box;transform-origin:center}
+  .spin-a{animation:spin 30s linear infinite}
+  .spin-b{animation:spinr 47.14s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes spinr{to{transform:rotate(-360deg)}}
+
+  .hero-grid{
+    position:relative;z-index:2;
+    display:grid;grid-template-columns:1fr;gap:clamp(30px,4vw,56px);align-items:end;
+  }
+  @media(min-width:940px){.hero-grid{grid-template-columns:1.28fr .82fr}}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 18px;display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--accent);display:inline-block}
+
+  h1.title{
+    margin:0;
+    font-size:clamp(3.1rem,10.6vw,8.2rem);
+    line-height:.84;
+    letter-spacing:-.055em;
+    font-weight:800;
+    font-family:var(--sans);
+  }
+  h1.title .n{color:var(--accent)}
+  h1.title .l{display:block}
+
+  .sub{
+    margin:22px 0 0;font-family:var(--serif);font-size:clamp(1rem,1.6vw,1.28rem);
+    color:var(--ink-soft);letter-spacing:.02em;line-height:1.75;
+  }
+  .sub b{
+    font-weight:600;
+    text-decoration:underline;
+    text-decoration-color:rgba(192,64,28,.42);
+    text-decoration-thickness:1px;
+    text-underline-offset:7px;
+  }
+
+  .dim{position:relative;margin-top:26px;height:34px;max-width:420px}
+  .dim .ln{position:absolute;left:0;right:0;top:12px;height:1px;background:var(--line)}
+  .dim .ln::before,.dim .ln::after{
+    content:"";position:absolute;top:-4px;width:9px;height:9px;
+    border-left:1px solid var(--ink);border-bottom:1px solid var(--ink);
+  }
+  .dim .ln::before{left:0;transform:rotate(45deg)}
+  .dim .ln::after{right:0;transform:rotate(-135deg)}
+  .dim .lb{
+    position:absolute;left:50%;top:12px;transform:translate(-50%,-50%);
+    background:var(--paper);padding:0 10px;
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.3em;color:var(--muted);
+  }
+
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+  .tag{
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
+    padding:5px 10px;border:1px solid var(--line);border-radius:2px;color:var(--ink-soft);
+    background:rgba(255,255,255,.35);
+  }
+
+  /* 铭牌 */
+  .plate{
+    position:relative;transform:rotate(-.45deg);
+    background:linear-gradient(160deg,#fbf9f2 0%,#efeade 100%);
+    border:1px solid var(--line);
+    box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 24px 50px -34px rgba(0,0,0,.65);
+    padding:26px 24px 20px;
+    transition:transform .6s cubic-bezier(.2,.7,.2,1);
+  }
+  .plate:hover{transform:rotate(0deg) translateY(-2px)}
+  .plate .plate-label{
+    margin:0 0 16px;font-family:var(--mono);font-size:.66rem;letter-spacing:.32em;
+    color:var(--muted);display:flex;justify-content:space-between;
+  }
+  .plate dl{margin:0;display:grid;gap:11px}
+  .plate dl>div{display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:baseline;border-bottom:1px dashed var(--line-soft);padding-bottom:9px}
+  .plate dt{font-size:.78rem;color:var(--muted);letter-spacing:.08em}
+  .plate dd{margin:0;font-size:.86rem;color:var(--ink);letter-spacing:.02em}
+  .plate dd em{font-style:normal;color:var(--accent)}
+  .plate .plate-foot{
+    margin:16px 0 0;font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;color:var(--muted);
+    display:flex;justify-content:space-between;
+  }
+  .screw{position:absolute;width:7px;height:7px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#fff,#b9b3a3 55%,#8d8778);
+    box-shadow:0 1px 1px rgba(0,0,0,.35) inset,0 0 0 1px rgba(0,0,0,.12);}
+  .screw.tl{top:9px;left:9px}.screw.tr{top:9px;right:9px}
+  .screw.bl{bottom:9px;left:9px}.screw.br{bottom:9px;right:9px}
+
+  /* ── 章节 ── */
+  section.sec{padding:clamp(44px,7vh,90px) 0;border-top:1px solid var(--line);position:relative}
+  .sec-grid{display:grid;grid-template-columns:1fr;gap:clamp(20px,3vw,48px)}
+  @media(min-width:900px){.sec-grid{grid-template-columns:210px 1fr;gap:56px}}
+  .sec-head{position:sticky;top:72px;align-self:start}
+  .sec-head .num{
+    display:block;font-family:var(--mono);font-size:.72rem;letter-spacing:.3em;color:var(--accent);margin-bottom:6px;
+  }
+  .sec-head h2{
+    margin:0;font-size:clamp(1.35rem,2.4vw,1.7rem);font-weight:700;letter-spacing:.04em;
+  }
+  .sec-head p{margin:10px 0 0;font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+
+  .body-text{max-width:64ch;font-size:1.02rem;color:var(--ink-soft);line-height:2.05;letter-spacing:.015em}
+  .body-text p{margin:0 0 1.15em}
+  .body-text p:last-child{margin-bottom:0}
+  .lede{font-size:clamp(1.06rem,1.5vw,1.2rem);color:var(--ink);line-height:1.95}
+
+  .pull{
+    margin:34px 0 0;padding:4px 0 4px 22px;border-left:2px solid var(--accent);
+    font-family:var(--serif);font-size:clamp(1.2rem,2.4vw,1.7rem);line-height:1.6;color:var(--ink);
+    letter-spacing:.01em;
+  }
+  .pull span{color:var(--muted);font-size:.62em;display:block;margin-top:8px;letter-spacing:.2em;font-family:var(--mono)}
+
+  /* 爱好清单 */
+  ul.list{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink)}
+  ul.list li{position:relative;border-bottom:1px solid var(--line);overflow:hidden}
+  ul.list li>.row{
+    display:grid;grid-template-columns:44px 112px 1fr 20px;align-items:center;gap:14px;
+    padding:16px 12px;position:relative;z-index:1;
+    transition:color .35s ease,padding .35s ease;
+  }
+  ul.list li::before{
+    content:"";position:absolute;inset:0;background:var(--ink);
+    transform:scaleY(0);transform-origin:bottom;transition:transform .4s cubic-bezier(.2,.7,.2,1);
+    z-index:0;
+  }
+  ul.list li:hover::before{transform:scaleY(1)}
+  ul.list li:hover>.row{color:var(--paper);padding-left:22px}
+  ul.list li:hover .idx{color:#e88a63}
+  .idx{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;color:var(--muted);transition:color .35s}
+  .nm{font-size:1.05rem;font-weight:600;letter-spacing:.06em}
+  .note{font-size:.82rem;color:var(--muted);letter-spacing:.02em;transition:color .35s}
+  ul.list li:hover .note{color:rgba(243,240,231,.72)}
+  .arrow{font-family:var(--mono);font-size:.85rem;opacity:.35;transition:opacity .35s,transform .35s}
+  ul.list li:hover .arrow{opacity:1;transform:translate(2px,-2px)}
+  @media(max-width:680px){
+    ul.list li>.row{
+      grid-template-columns:32px 1fr;grid-template-areas:"i n" "i t";
+      gap:0 12px;padding:14px 10px;
+    }
+    ul.list li:hover>.row{padding-left:16px}
+    .idx{grid-area:i}
+    .nm{grid-area:n}
+    .note{grid-area:t;font-size:.76rem;margin-top:2px}
+    .arrow{display:none}
+  }
+
+  /* i 人说明书 */
+  .meters{display:grid;gap:20px;margin:4px 0 0}
+  .meter .m-top{display:flex;justify-content:space-between;align-items:baseline;font-size:.86rem;letter-spacing:.04em}
+  .meter .m-top b{font-family:var(--mono);font-size:.76rem;color:var(--accent);font-weight:500;letter-spacing:.08em}
+  .meter .m-bar{position:relative;height:5px;margin-top:9px;background:var(--line-soft);overflow:hidden}
+  .meter .m-bar i{
+    position:absolute;inset:0;width:var(--v);display:block;background:var(--ink);
+    transform-origin:left;transition:transform 1.1s cubic-bezier(.2,.8,.2,1);
+  }
+  .meter:nth-child(even) .m-bar i{background:var(--accent)}
+  html.js .meter .m-bar i{transform:scaleX(0)}
+  html.js .in .meter .m-bar i{transform:scaleX(1)}
+
+  /* 滚动显现 */
+  html.js .reveal{opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+  html.js .reveal.in{opacity:1;transform:none}
+
+  /* 跑马灯 */
+  .marquee{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);overflow:hidden;padding:10px 0}
+  .marquee .track{display:flex;width:max-content;animation:slide 34s linear infinite}
+  .marquee span{
+    font-size:clamp(1.6rem,5vw,3.2rem);font-weight:800;letter-spacing:.02em;line-height:1.15;
+    padding-right:.4em;white-space:nowrap;
+    color:transparent;-webkit-text-stroke:1px rgba(22,22,15,.5);
+  }
+  .marquee span b{-webkit-text-stroke:0;color:var(--accent);font-weight:800}
+  @keyframes slide{to{transform:translateX(-50%)}}
+
+  /* 页脚 */
+  footer{padding:34px 0 46px}
+  .foot-in{
+    display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+  }
+  .foot-in a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px;transition:color .3s,border-color .3s}
+  .foot-in a:hover{color:var(--accent);border-color:var(--accent)}
+  .sign{
+    font-family:var(--serif);font-size:clamp(1.1rem,3.6vw,2.1rem);letter-spacing:.12em;line-height:1.4;
+    padding:22px 0 26px;color:var(--ink);
+  }
+  .sign em{font-style:normal;color:var(--accent)}
+
+  @media(max-width:680px){
+    .hero{padding-bottom:clamp(20px,4vh,36px)}
+    .sec{padding:clamp(34px,6vh,56px) 0}
+    .sec-head{position:static}
+    .body-text{line-height:1.95}
+    .pull{margin-top:26px;padding-left:16px}
+    .pull span{font-size:.54em;letter-spacing:.1em;line-height:1.65}
+    .tags{gap:6px}
+    .tag{font-size:.63rem;padding:4px 8px}
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    html.js .reveal{opacity:1;transform:none}
+    html.js .meter .m-bar i{transform:none}
+  }
+</style>
+</head>
+<body id="top">
+
+<div class="grain" aria-hidden="true"></div>
+<i class="crop tl" aria-hidden="true"></i>
+<i class="crop tr" aria-hidden="true"></i>
+<i class="crop bl" aria-hidden="true"></i>
+<i class="crop br" aria-hidden="true"></i>
+
+<header class="bar">
+  <div class="wrap bar-in">
+    <span class="mark">520<i>linghua</i></span>
+    <span class="mid">MECH · ELEC · OPTICS · CODE</span>
+    <span class="clock" id="clock">—</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <div class="wrap">
+    <div class="hero" id="hero">
+      <svg class="gears" viewBox="0 0 430 360" aria-hidden="true">
+        <g class="spin-a"><path id="gearA" fill="currentColor" fill-rule="evenodd"></path></g>
+        <g class="spin-b"><path id="gearB" fill="currentColor" fill-rule="evenodd"></path></g>
+      </svg>
+
+      <div class="hero-grid">
+        <div class="reveal">
+          <p class="eyebrow">Personal File · No.001</p>
+          <h1 class="title"><span class="n">520</span><span class="l">linghua</span></h1>
+          <p class="sub">机械设计制造及其自动化 —— <b>一个先把东西拆开、再想办法让它更好用的 i 人。</b></p>
+
+          <div class="dim" aria-hidden="true">
+            <span class="ln"></span>
+            <span class="lb">1 人份 · 慢热</span>
+          </div>
+
+          <div class="tags">
+            <span class="tag">篮球</span><span class="tag">羽毛球</span><span class="tag">电子游戏</span>
+            <span class="tag">机械</span><span class="tag">电子</span><span class="tag">光学</span>
+            <span class="tag">计算机</span><span class="tag">软件 / 硬件</span>
+          </div>
+        </div>
+
+        <aside class="plate reveal">
+          <i class="screw tl" aria-hidden="true"></i><i class="screw tr" aria-hidden="true"></i>
+          <i class="screw bl" aria-hidden="true"></i><i class="screw br" aria-hidden="true"></i>
+          <p class="plate-label"><span>SPEC / 规格</span><span>REV. A</span></p>
+          <dl>
+            <div><dt>专业</dt><dd>机械设计制造及其自动化</dd></div>
+            <div><dt>信条</dt><dd>拆开，看懂，再做得更好用</dd></div>
+            <div><dt>性格</dt><dd><em>i 人</em> · 话少 · 慢热 · 好相处</dd></div>
+            <div><dt>状态</dt><dd>随时可以开一局</dd></div>
+          </dl>
+          <p class="plate-foot"><span>SHEET 01</span><span>SCALE 1:1</span></p>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- 01 关于 -->
+  <section class="sec">
+    <div class="wrap sec-grid">
+      <div class="sec-head">
+        <span class="num">01 / ABOUT</span>
+        <h2>关于我</h2>
+        <p>自我介绍</p>
+      </div>
+      <div class="body-text reveal">
+        <p class="lede">我是 520linghua，学的是机械设计制造及其自动化。</p>
+        <p>爱好摊得有点开。球场上爱篮球和羽毛球，跑起来、对抗一下，能把人从图纸和屏幕前拽出来；坐回桌前爱打游戏，琢磨规则、找最优解，其实和做设计是一回事。真正让我着迷的是「从想法到实物」这条整链路：机械结构怎么受力，电路怎么走线，光怎么偏折，代码怎么把硬件唤醒——机械、电子、光学、计算机、软件、硬件，看着分散，落在一个作品里却是同一件事的不同侧面。</p>
+        <p>我喜欢把东西拆开，看它到底怎么转起来，再想办法让它更好用。画图、建模、焊板子、写代码，是同一种乐趣的不同入口，也让我愿意在一件事上死磕到通；不懂的地方就去查、去问，不问明白心里不踏实。也爱翻别人的作品，偷师两招回来。</p>
+        <p>性格上我是个 i 人。人多的时候话不多，习惯先听、先看、先动手把事情做对；熟了之后也能聊到停不下来。慢热不等于冷淡，只是需要一点时间——所以如果哪次我没接话，多半是在琢磨东西，不是不想理人。</p>
+        <p>很高兴来到这里，希望能和大家好好相处、互相搭把手，一起把想法做成能摸到的东西。也请多多包涵我的慢热和嘴笨，往后请多指教。</p>
+
+        <blockquote class="pull">“先把它拆开看看，再想办法让它更好用。”
+          <span>OPEN IT · UNDERSTAND IT · MAKE IT BETTER</span>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 爱好 -->
+  <section class="sec">
+    <div class="wrap sec-grid">
+      <div class="sec-head">
+        <span class="num">02 / INTERESTS</span>
+        <h2>爱好清单</h2>
+        <p>八条，都不肯放下</p>
+      </div>
+      <ul class="list reveal">
+        <li><div class="row"><span class="idx">01</span><span class="nm">篮球</span><span class="note">跑动与对抗，把脑子从图纸里拽出来</span><span class="arrow">↗</span></div></li>
+        <li><div class="row"><span class="idx">02</span><span class="nm">羽毛球</span><span class="note">手上要准，和调机器是一个道理</span><span class="arrow">↗</span></div></li>
+        <li><div class="row"><span class="idx">03</span><span class="nm">电子游戏</span><span class="note">琢磨规则，顺手找个最优解</span><span class="arrow">↗</span></div></li>
+        <li><div class="row"><span class="idx">04</span><span class="nm">机械结构</span><span class="note">力往哪儿走，东西才立得住</span><span class="arrow">↗</span></div></li>
+        <li><div class="row"><span class="idx">05</span><span class="nm">电子电路</span><span class="note">从原理图到焊点，通的那一下很快乐</span><span class="arrow">↗</span></div></li>
+        <li><div class="row"><span class="idx">06</span><span class="nm">光学</span><span class="note">光怎么走，比想象中更讲道理</span><span class="arrow">↗</span></div></li>
+        <li><div class="row"><span class="idx">07</span><span class="nm">计算机</span><span class="note">把重复的事交给机器去做</span><span class="arrow">↗</span></div></li>
+        <li><div class="row"><span class="idx">08</span><span class="nm">软件 / 硬件</span><span class="note">中间那道缝，最有意思</span><span class="arrow">↗</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 03 i 人说明书 -->
+  <section class="sec" id="persona">
+    <div class="wrap sec-grid">
+      <div class="sec-head">
+        <span class="num">03 / MANUAL</span>
+        <h2>i 人使用说明</h2>
+        <p>电量有限，恢复很慢</p>
+      </div>
+      <div class="reveal">
+        <div class="body-text">
+          <p>i 人不是社恐，只是电量有限、恢复得慢。人多的时候更愿意先听；一旦聊到感兴趣的东西，话会自己变多。所以——<b>慢一点认识我，通常比较划算。</b></p>
+        </div>
+        <div class="meters">
+          <div class="meter"><div class="m-top"><span>陌生人饭局</span><b>18%</b></div><div class="m-bar"><i style="--v:18%"></i></div></div>
+          <div class="meter"><div class="m-top"><span>聊到机械与电路</span><b>88%</b></div><div class="m-bar"><i style="--v:88%"></i></div></div>
+          <div class="meter"><div class="m-top"><span>深夜联机开黑</span><b>76%</b></div><div class="m-bar"><i style="--v:76%"></i></div></div>
+          <div class="meter"><div class="m-top"><span>一个人拆东西</span><b>95%</b></div><div class="m-bar"><i style="--v:95%"></i></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="track">
+      <span>拆开 · 看懂 · <b>再让它更好用</b> · </span><span>拆开 · 看懂 · <b>再让它更好用</b> · </span>
+      <span>拆开 · 看懂 · <b>再让它更好用</b> · </span><span>拆开 · 看懂 · <b>再让它更好用</b> · </span>
+    </div>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <p class="sign">很高兴认识你，<em>请多指教。</em></p>
+      <div class="foot-in">
+        <span>© 2026 · 520linghua</span>
+        <span>SHEET 01 / REV. A / 1 PERSON</span>
+        <a href="#top">回到顶部 ↑</a>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  /* 齿轮：按极坐标生成齿形路径，两轮模数相同 */
+  function gearPath(cx, cy, teeth, rPitch) {
+    var m = (rPitch * 2) / teeth;
+    var ra = rPitch + m * 0.82;
+    var rd = rPitch - m * 0.92;
+    var step = (Math.PI * 2) / teeth;
+    var pts = [];
+    for (var i = 0; i < teeth; i++) {
+      var a = i * step;
+      var seq = [
+        [a + step * 0.02, rd],
+        [a + step * 0.16, rd],
+        [a + step * 0.28, ra],
+        [a + step * 0.48, ra],
+        [a + step * 0.60, rd],
+        [a + step * 0.78, rd]
+      ];
+      for (var j = 0; j < seq.length; j++) {
+        pts.push([
+          cx + Math.cos(seq[j][0]) * seq[j][1],
+          cy + Math.sin(seq[j][0]) * seq[j][1]
+        ]);
+      }
+    }
+    var d = 'M' + pts.map(function (p) { return p[0].toFixed(2) + ' ' + p[1].toFixed(2); }).join('L') + 'Z';
+    // 中心孔（evenodd 挖空）
+    var h = rPitch * 0.22;
+    d += 'M' + (cx + h) + ' ' + cy +
+         'A' + h + ' ' + h + ' 0 1 0 ' + (cx - h) + ' ' + cy +
+         'A' + h + ' ' + h + ' 0 1 0 ' + (cx + h) + ' ' + cy + 'Z';
+    return d;
+  }
+
+  var A = document.getElementById('gearA');
+  var B = document.getElementById('gearB');
+  if (A && B) {
+    var rA = 86, teethA = 22;
+    var m = (rA * 2) / teethA;
+    var teethB = 14;
+    var rB = (m * teethB) / 2;
+    var gap = m * 0.55;
+    var ax = 168, ay = 196, ang = -0.52;
+    var bx = ax + Math.cos(ang) * (rA + rB + gap);
+    var by = ay + Math.sin(ang) * (rA + rB + gap);
+    A.setAttribute('d', gearPath(ax, ay, teethA, rA));
+    B.setAttribute('d', gearPath(bx, by, teethB, rB));
+  }
+
+  /* 时钟 */
+  var clock = document.getElementById('clock');
+  if (clock) {
+    var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+    var tick = function () {
+      var d = new Date();
+      clock.textContent = d.getFullYear() + '.' + pad(d.getMonth() + 1) + '.' + pad(d.getDate()) +
+        '  ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  /* 滚动显现 */
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var items = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduce) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.16, rootMargin: '0px 0px -8% 0px' });
+    Array.prototype.forEach.call(items, function (el) { io.observe(el); });
+  } else {
+    Array.prototype.forEach.call(items, function (el) { el.classList.add('in'); });
+  }
+
+  /* 鼠标跟随的暖光 */
+  var hero = document.getElementById('hero');
+  if (hero && !reduce && window.matchMedia && window.matchMedia('(hover:hover)').matches) {
+    hero.addEventListener('pointermove', function (e) {
+      var r = hero.getBoundingClientRect();
+      hero.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      hero.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    }, { passive: true });
+  }
+})();
+</script>
+</body>
+</html>
